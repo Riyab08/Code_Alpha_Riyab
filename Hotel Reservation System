@@ -1,0 +1,220 @@
+import java.util.*;
+
+// Enum representing room types
+enum RoomType {
+    SINGLE,
+    DOUBLE,
+    SUITE
+    // Other room types
+}
+
+// Class representing a hotel room
+class Room {
+    private int roomId;
+    private RoomType type;
+    private double price;
+    private boolean available;
+
+    public Room(int roomId, RoomType type, double price) {
+        this.roomId = roomId;
+        this.type = type;
+        this.price = price;
+        this.available = true;
+    }
+
+    // Getters and setters
+    public int getRoomId() {
+        return roomId;
+    }
+
+    public RoomType getType() {
+        return type;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public boolean isAvailable() {
+        return available;
+    }
+
+    public void setAvailable(boolean available) {
+        this.available = available;
+    }
+
+    // Other methods
+}
+
+// Class representing a user
+class User {
+    private int userId;
+    private String name;
+    private String email;
+
+    public User(int userId, String name, String email) {
+        this.userId = userId;
+        this.name = name;
+        this.email = email;
+    }
+
+    // Getters
+    public int getUserId() {
+        return userId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    // Other methods
+}
+
+// Class representing a booking
+class Booking {
+    private int bookingId;
+    private User user;
+    private Room room;
+    private Date startDate;
+    private Date endDate;
+    private boolean paid;
+
+    public Booking(int bookingId, User user, Room room, Date startDate, Date endDate) {
+        this.bookingId = bookingId;
+        this.user = user;
+        this.room = room;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.paid = false;
+    }
+
+    // Getters
+    public int getBookingId() {
+        return bookingId;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public Room getRoom() {
+        return room;
+    }
+
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public boolean isPaid() {
+        return paid;
+    }
+
+    public void setPaid(boolean paid) {
+        this.paid = paid;
+    }
+
+    // Other methods
+}
+
+// Class representing the hotel reservation system
+public class Task3 {
+    private List<Room> rooms;
+    private List<User> users;
+    private List<Booking> bookings;
+
+    public Task3() {
+        rooms = new ArrayList<>();
+        users = new ArrayList<>();
+        bookings = new ArrayList<>();
+    }
+
+    // Method to add a room to the system
+    public void addRoom(Room room) {
+        rooms.add(room);
+    }
+
+    // Method to add a user to the system
+    public void addUser(User user) {
+        users.add(user);
+    }
+
+    // Method to make a reservation
+    public void makeReservation(User user, Room room, Date startDate, Date endDate) {
+        // Check if the room is available for the given dates
+        boolean available = checkRoomAvailability(room, startDate, endDate);
+        if (available) {
+            Booking booking = new Booking(bookings.size() + 1, user, room, startDate, endDate);
+            bookings.add(booking);
+            room.setAvailable(false);
+            System.out.println("Reservation successful. Booking ID: " + booking.getBookingId());
+        } else {
+            System.out.println("Room is not available for the selected dates.");
+        }
+    }
+
+    // Method to check room availability
+    private boolean checkRoomAvailability(Room room, Date startDate, Date endDate) {
+        // Logic to check room availability
+        return room.isAvailable();
+    }
+
+    // Method to display all available rooms
+    public void displayAvailableRooms() {
+        System.out.println("Available Rooms:");
+        for (Room room : rooms) {
+            if (room.isAvailable()) {
+                System.out.println("Room ID: " + room.getRoomId() + ", Type: " + room.getType() + ", Price: Rs." + room.getPrice());
+            }
+        }
+    }
+
+    // Method to display booking details for a user
+    public void displayBookingDetails(User user) {
+        System.out.println("Booking Details for User: " + user.getName());
+        for (Booking booking : bookings) {
+            if (booking.getUser().equals(user)) {
+                System.out.println("Booking ID: " + booking.getBookingId() + ", Room ID: " + booking.getRoom().getRoomId() +
+                        ", Start Date: " + booking.getStartDate() + ", End Date: " + booking.getEndDate() +
+                        ", Paid: " + (booking.isPaid() ? "Yes" : "No"));
+            }
+        }
+    }
+
+    // Main method for testing
+    public static void main(String[] args) {
+        // Create a hotel reservation system
+        Task3 reservationSystem = new Task3();
+
+        // Add rooms to the system
+        Room room1 = new Room(1, RoomType.SINGLE, 800);
+        Room room2 = new Room(2, RoomType.DOUBLE, 1500);
+        Room room3 = new Room(3, RoomType.SUITE, 5500);
+        reservationSystem.addRoom(room1);
+        reservationSystem.addRoom(room2);
+        reservationSystem.addRoom(room3);
+
+        // Add users to the system
+        User user1 = new User(1, "Aman Gawande", "aman2gawande@gmail.com");
+        User user2 = new User(2, "Riddhi Gupta", "riddhigupta090@gmail.com");
+        reservationSystem.addUser(user1);
+        reservationSystem.addUser(user2);
+
+        // Display available rooms
+        reservationSystem.displayAvailableRooms();
+
+        // Make a reservation
+        reservationSystem.makeReservation(user1, room1, new Date(), new Date());
+
+        // Display booking details for a user
+        reservationSystem.displayBookingDetails(user1);
+    }
+}
+
