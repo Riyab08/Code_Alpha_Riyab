@@ -1,0 +1,125 @@
+import java.util.Scanner;
+
+class BankingApp{
+    private String name;
+    private String acc_no;
+    private String acc_type;
+    private long  balance;
+
+    Scanner sc = new Scanner(System.in);
+
+//  Open new account (Method)
+    public void newAccount(){
+        System.out.print("Name of account holder :- ");
+        name = sc.nextLine();
+        System.out.print("Account no :- ");
+        acc_no = sc.nextLine();
+        System.out.print("Account type :- ");
+        acc_type = sc.nextLine();
+        System.out.print("Balance :- ");
+        balance = sc.nextLong();
+    }
+
+//  Display account details  (Method)
+    public void showDetails(){
+        System.out.println("Name of account holder :- "+name) ;
+        System.out.println("Account no :- " +acc_no);
+        System.out.println("Account type :- " +acc_type);
+        System.out.println("Balance :- "+balance);
+    }
+
+//  Deposit money (Method)
+    public void deposit_money(){
+        long amt;
+        System.out.print("How much money you want to deposit :- ");
+        amt = sc.nextLong();
+        balance = balance + amt;
+    }
+
+//  Withdraw money (Method)
+    public void withdraw_money() {
+        long amt;
+        System.out.print("How much money do you want to withdraw :- ");
+        amt = sc.nextLong();
+        if (balance >= amt) {
+            balance = balance - amt;
+            System.out.println("Available balance :- " + balance);
+        } else {
+            System.out.println("Transaction Failed !!! \n Please check your Account balance.");
+        }
+    }
+
+//  Search an Account no (Method)
+        public boolean search(String ac_no){
+            if (acc_no.equals(ac_no)){
+                showDetails();
+                return (true);
+        }
+            return (false);
+    }
+
+}
+public class Task2 {
+    public static void main(String[] args) {
+
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Number of customers you want to input :- ");
+        int n = sc.nextInt();
+        BankingApp ba [] = new BankingApp[n];
+        for(int i = 0; i< ba.length; i++){
+            ba[i] = new BankingApp();
+            ba[i].newAccount();
+        }
+
+        int choice;
+        do{
+            System.out.println("-------------------------------Bank Application--------------------------------");
+            System.out.println("1) Display account details \n 2) Deposit the amount \n 3) Withdraw the amount \n 4) Exit");
+            System.out.print("Enter your choice :- ");
+            choice = sc.nextInt();
+
+            switch (choice){
+                case 1:
+                    for (int i = 0; i < ba.length; i++){
+                        ba[i].showDetails();
+                    }
+                    break;
+                case 2:
+                    System.out.println("Enter Account no :- ");
+                    String ac_no = sc.next();
+                    boolean found = false;
+                    for (int i = 0; i < ba.length; i++){
+                        found = ba[i].search(ac_no);
+                        if (found){
+                            ba[i].deposit_money();
+                            break;
+                        }
+                    }
+                    if(!found){
+                        System.out.println("Search failed !!! \n Account doesn't exist.");
+                    }
+                    break;
+
+                case 3:
+                    System.out.println("Enter Account no :- ");
+                    ac_no = sc.next();
+                    found = false;
+                    for (int i = 0; i < ba.length; i++){
+                        found = ba[i].search(ac_no);
+                        if (found){
+                            ba[i].withdraw_money();
+                            break;
+                        }
+                    }
+                    if(!found){
+                        System.out.println("Search failed !!! \n Account doesn't exist.");
+                    }
+                    break;
+                case 4:
+                    System.out.println("Thankyou !!! \n Visit Again.");
+                    break;
+            }
+        }
+        while (choice != 4);
+    }
+}
