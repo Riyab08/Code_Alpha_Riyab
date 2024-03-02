@@ -1,0 +1,48 @@
+import java.util.Scanner;
+public class Task1 {
+    public static void main(String args[]){
+
+//  Taking user input
+        Scanner sc = new Scanner(System.in);
+
+//  Taking name of student from teacher
+        System.out.print("Enter student name : ");
+        String name = sc.nextLine();
+
+//  Taking Grade from teacher
+        System.out.print("Enter "+ name + " Grade : ");
+        String grade = sc.nextLine();
+
+//  Taking marks as a user input and store it in the array
+        int marks [] = new int[5];
+        System.out.print("Enter Physcics marks : ");
+        marks[0] = sc.nextInt();
+        System.out.print("Enter Chemistry marks : ");
+        marks[1] = sc.nextInt();
+        System.out.print("Enter Mathematics marks : ");
+        marks[2] = sc.nextInt();
+        System.out.print("Enter English marks : ");
+        marks[3] = sc.nextInt();
+        System.out.print("Enter Hindi marks : ");
+        marks[4] = sc.nextInt();
+
+//  Calculating Average on the basis of marks
+        int sum = marks[0]+marks[1]+marks[2]+marks[3]+marks[4];
+        int avg = sum/5;
+        System.out.println("Average of " + name + " : " + avg);
+
+//  Calculating highest and lowest marks of a student
+        int max = marks[0];
+        int min = marks[0];
+        for (int i = 1; i < marks.length; i++) {
+            if (marks[i] > max) {
+                max = marks[i];
+            }
+            if (marks[i] < min) {
+                min = marks[i];
+            }
+        }
+        System.out.println("The highest marks of " + name + " is : " + max);
+        System.out.println("The lowest marks of " + name + " is : " + min);
+    }
+}
